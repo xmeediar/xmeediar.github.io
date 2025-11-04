@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infográfico: Análise de Balanços de Warren Buffett</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Brilliant Blues -->
+    <!-- 
+      Application Structure Plan: 
+      O infográfico é estruturado como uma narrativa linear e rolável que guia o usuário pela metodologia de Warren Buffett. Começa com sua filosofia central (O Porquê), depois mergulha sequencialmente em cada demonstração financeira (DRE, BP, DFC) para mostrar os KPIs que ele procura (O Como), e conclui com seu processo de análise e tese de avaliação (O Resultado). Esta estrutura de "jornada" é ideal para um infográfico, pois educa o usuário passo a passo, tornando conceitos financeiros complexos mais fáceis de digerir.
+    -->
+    <!-- 
+      Visualization & Content Choices:
+      - Filosofia (Qualitativo): Goal: Inform. Method: HTML/CSS Cards (Material Design). Justification: Separa claramente os dois pilares filosóficos.
+      - Margem Bruta (DRE): Goal: Compare. Method: Bar Chart (Chart.js). Justification: Mostra visualmente a diferença drástica que Buffett procura.
+      - SG&A (DRE): Goal: Compare. Method: Donut Chart (Chart.js). Justification: Demonstra a eficiência (baixa despesa) de uma empresa com vantagem.
+      - Crescimento do LPA (DRE): Goal: Change. Method: Line Chart (Chart.js). Justification: Compara uma linha suave (previsível) com uma errática (ruim).
+      - Dívida (DRE): Goal: Compare. Method: Stacked Bar (Chart.js). Justification: Mostra como a dívida (juros) consome o lucro.
+      - ROE/Dívida (BP): Goal: Inform. Method: KPI Cards (HTML/CSS). Justification: Destaca os principais benchmarks numéricos.
+      - Lucros Retidos (BP): Goal: Change. Method: Area Chart (Chart.js). Justification: Enfatiza o volume e o poder da composição ao longo do tempo.
+      - Fluxo de Caixa (DFC): Goal: Compare. Method: Bar Chart (Chart.js). Justification: Compara "Lucro" (opinião) vs. "Caixa" (fato).
+      - Processo (Organize): Goal: Organize. Method: HTML/CSS Flowchart. Justification: Visualiza o processo de 4 etapas sem SVG/Mermaid.
+      - Equity Bond (Valuation): Goal: Compare/Change. Method: Line Chart (Chart.js). Justification: A melhor forma de mostrar o conceito de "cupom crescente" vs. "cupom fixo".
+      - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F2F9FF;
+        }
+        h1, h2, h3 {
+            font-family: 'Teko', sans-serif;
+            font-weight: 600;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-left: 5px solid #366E8A;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .kpi-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #003F5C;
+            font-family: 'Teko', sans-serif;
+        }
+        .kpi-label {
+            font-size: 1rem;
+            color: #366E8A;
+        }
+        .flowchart-node {
+            background-color: white;
+            border: 2px solid #7CB5D3;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        .flowchart-arrow {
+            font-size: 2.5rem;
+            color: #366E8A;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="bg-[#F2F9FF] text-gray-800">
+
+    <header class="bg-[#003F5C] text-white text-center py-12 px-4">
+        <h1 class="text-5xl md:text-7xl font-bold tracking-wide uppercase">Analisando Empresas como Warren Buffett</h1>
+        <p class="mt-4 text-lg md:text-2xl font-light max-w-4xl mx-auto text-[#C1E6FF]">Um Infográfico sobre a Busca pela Vantagem Competitiva Durável</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="philosophy" class="my-12">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-[#003F5C] mb-8">Os Pilares da Filosofia de Buffett</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">A jornada de Buffett o levou de comprar "barganhas" (negócios medíocres a preços baixos) para sua filosofia vencedora: comprar negócios fantásticos a preços justos. Isso se baseia em duas revelações centrais.</p>
+            <div class="grid md:grid-cols-2 gap-8 text-center">
+                <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-[#366E8A]">
+                    <h3 class="text-3xl font-semibold text-[#003F5C] mb-4">Revelação #1: Qualidade Acima do Preço</h3>
+                    <p class="text-lg">Buffett percebeu que a verdadeira riqueza vinha de investir em <strong class="text-[#003F5C]">empresas excepcionais</strong> com poder de lucro duradouro, em vez de lucrar com a reviravolta de empresas ruins. "É muito melhor comprar uma empresa maravilhosa a um preço justo do que uma empresa justa a um preço maravilhoso."</p>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-[#366E8A]">
+                    <h3 class="text-3xl font-semibold text-[#003F5C] mb-4">Revelação #2: A Vantagem Competitiva</h3>
+                    <p class="text-lg">O segredo é encontrar empresas com um "fosso" econômico (vantagem competitiva durável). Isso pode ser uma marca forte (como a Coca-Cola), baixo custo, ou um efeito de rede, que protege a empresa dos concorrentes e permite lucros consistentes.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="income-statement" class="my-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-[#003F5C] mb-4">O Raio-X: Demonstração do Resultado (DRE)</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">Para Buffett, a DRE é a primeira janela para a saúde econômica de uma empresa. Ele a utiliza para identificar sinais de uma vantagem competitiva durável, linha por linha.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-center mb-4 text-[#003F5C]">Margem Bruta: O Poder de Precificação</h3>
+                    <p class="text-center mb-4">Uma margem bruta consistentemente alta (idealmente > 40%) indica que a empresa não compete apenas por preço. É o primeiro sinal de um "fosso".</p>
+                    <div class="chart-container">
+                        <canvas id="grossMarginChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-center mb-4 text-[#003F5C]">Eficiência Operacional (SG&A)</h3>
+                    <p class="text-center mb-4">Empresas com vantagens duráveis não precisam gastar excessivamente para vender. Buffett procura Despesas (SG&A) consistentemente baixas em relação ao lucro bruto (idealmente < 30%).</p>
+                    <div class="chart-container">
+                        <canvas id="sgaChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-center mb-4 text-[#003F5C]">Consistência do Lucro (LPA)</h3>
+                     <p class="text-center mb-4">Buffett busca uma tendência de crescimento consistente e previsível no Lucro por Ação (LPA). Lucros voláteis indicam um negócio instável e competitivo.</p>
+                    <div class="chart-container">
+                        <canvas id="epsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-center mb-4 text-[#003F5C]">O Perigo da Dívida (Juros)</h3>
+                     <p class="text-center mb-4">Pouca ou nenhuma despesa com juros é um sinal de força. Empresas com dívidas elevadas têm sua lucratividade e resiliência comprometidas, especialmente em tempos difíceis.</p>
+                    <div class="chart-container">
+                        <canvas id="debtImpactChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="balance-sheet" class="my-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-[#003F5C] mb-4">A Fundação: Balanço Patrimonial (BP)</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">O balanço oferece um retrato da saúde financeira, mostrando como a empresa se financia. Buffett procura baixo endividamento e um crescimento constante no patrimônio dos acionistas.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="kpi-card lg:col-span-1">
+                    <div class="kpi-value">> 15%</div>
+                    <div class="kpi-label">Retorno Sobre Patrimônio (ROE) Ideal</div>
+                    <p class="text-sm mt-2">Um ROE consistentemente alto, sem alavancagem excessiva, mostra que o capital dos acionistas está sendo usado de forma eficaz.</p>
+                </div>
+                <div class="kpi-card lg:col-span-1">
+                    <div class="kpi-value">< 0.8</div>
+                    <div class="kpi-label">Índice Dívida/Patrimônio Líquido Ideal</div>
+                    <p class="text-sm mt-2">Um índice baixo indica que a empresa financia seu crescimento com lucros próprios, não com dívidas arriscadas.</p>
+                </div>
+                 <div class="kpi-card lg:col-span-1">
+                    <div class="kpi-value">BAIXO</div>
+                    <div class="kpi-label">Ativo Imobilizado (CAPEX)</div>
+                    <p class="text-sm mt-2">Buffett prefere empresas "asset-light" que não precisam reinvestir pesadamente em máquinas e fábricas para crescer.</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow-lg mt-8 md:col-span-2">
+                <h3 class="text-2xl font-semibold text-center mb-4 text-[#003F5C]">Lucros Retidos: O Motor do Enriquecimento</h3>
+                 <p class="text-center mb-4">A capacidade de uma empresa reter e reinvestir seus lucros de forma lucrativa (refletido no crescimento dos Lucros Retidos no BP) é o segredo para o crescimento composto do valor a longo prazo.</p>
+                <div class="chart-container h-96">
+                    <canvas id="retainedEarningsChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <section id="cash-flow" class="my-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-[#003F5C] mb-4">Onde está o Dinheiro? Fluxo de Caixa (DFC)</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">"O lucro é opinião, o caixa é fato." Buffett foca no "Fluxo de Caixa Livre" (ou "Lucros do Proprietário") para entender quanto dinheiro real o negócio gera para seus donos.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-center mb-4 text-[#003F5C]">Lucro vs. Caixa</h3>
+                    <p class="text-center mb-4">Empresas saudáveis geram um Fluxo de Caixa Operacional (FCO) consistentemente igual ou maior que o Lucro Líquido. Se o lucro não se converte em caixa, é um sinal de alerta.</p>
+                    <div class="chart-container">
+                        <canvas id="cashVsEarningsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-semibold text-center mb-4 text-[#003F5C]">O Custo de Manutenção (CAPEX)</h3>
+                    <p class="text-center mb-4">O verdadeiro "Lucro do Proprietário" é o FCO menos as Despesas de Capital (CAPEX). Buffett ama empresas com baixo CAPEX, pois elas geram mais caixa livre.</p>
+                    <div class="chart-container">
+                        <canvas id="capexChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="flowchart" class="my-16">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-[#003F5C] mb-4">O Processo de Análise de Buffett</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">Buffett segue um processo disciplinado, da triagem inicial à decisão de compra, sempre focado na qualidade e no valor.</p>
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                <div class="flowchart-node">
+                    <h3 class="font-bold text-[#003F5C]">1. Triagem</h3>
+                    <p class="text-sm">Buscar empresas em seu círculo de competência com sinais de vantagem competitiva durável.</p>
+                </div>
+                <div class="flowchart-arrow self-center hidden md:block">→</div>
+                <div class="flowchart-arrow self-center md:hidden">↓</div>
+                <div class="flowchart-node">
+                    <h3 class="font-bold text-[#003F5C]">2. Análise Financeira</h3>
+                    <p class="text-sm">Examinar DRE, BP e DFC de 10 anos em busca de consistência, baixo endividamento e alta rentabilidade.</p>
+                </div>
+                <div class="flowchart-arrow self-center hidden md:block">→</div>
+                <div class="flowchart-arrow self-center md:hidden">↓</div>
+                <div class="flowchart-node">
+                    <h3 class="font-bold text-[#003F5C]">3. Avaliação (Valuation)</h3>
+                    <p class="text-sm">Calcular o valor intrínseco e comparar com o preço de mercado, buscando uma margem de segurança.</p>
+                </div>
+                 <div class="flowchart-arrow self-center hidden md:block">→</div>
+                 <div class="flowchart-arrow self-center md:hidden">↓</div>
+                <div class="flowchart-node">
+                    <h3 class="font-bold text-[#003F5C]">4. Decisão</h3>
+                    <p class="text-sm">Comprar o negócio fantástico a um preço justo e mantê-lo pelo maior tempo possível.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="valuation" class="my-16">
+             <h2 class="text-4xl md:text-5xl font-bold text-center text-[#003F5C] mb-4">Avaliação: O Conceito de "Equity Bond"</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">A grande mudança de Buffett foi tratar ações de empresas excelentes não como pedaços de papel especulativos, mas como títulos (bonds) cujo "cupom" (lucro por ação) cresce com o tempo.</p>
+             <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-semibold text-center mb-4 text-[#003F5C]">O Rendimento Sempre Crescente</h3>
+                <p class="text-center mb-4">Enquanto um título de renda fixa paga um cupom fixo (ex: 5% ao ano), o "cupom" de uma empresa com vantagem competitiva (seu LPA) cresce. Isso faz com que o rendimento sobre o custo de aquisição original aumente exponencialmente.</p>
+                <div class="chart-container">
+                    <canvas id="equityBondChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#003F5C] text-center text-white py-6 mt-12">
+        <p>Infográfico baseado nos princípios do livro "Warren Buffett e a Análise de Balanços".</p>
+        <p class="text-sm text-[#C1E6FF]">Criado para fins educacionais e de visualização de dados.</p>
+    </footer>
+
+    <script>
+        const brilliantBlues = {
+            dark: '#003F5C',
+            medium: '#366E8A',
+            light: '#7CB5D3',
+            extraLight: '#C1E6FF',
+            background: '#F2F9FF'
+        };
+
+        const wrapLabel = (label, maxLen = 16) => {
+            if (typeof label !== 'string' || label.length <= maxLen) {
+                return label;
+            }
+            const words = label.split(' ');
+            let currentLine = '';
+            const lines = [];
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLen && currentLine.length > 0) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine.length > 0) {
+                lines.push(currentLine);
+            }
+            return lines;
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            if (!item) return '';
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            }
+            return label;
+        };
+
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { color: brilliantBlues.dark }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { color: brilliantBlues.dark },
+                    grid: { color: '#e0e0e0' }
+                },
+                x: {
+                    ticks: { color: brilliantBlues.dark },
+                    grid: { display: false }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('grossMarginChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Empresa com Vantagem', 'Empresa de Commodity'],
+                datasets: [{
+                    label: 'Margem Bruta (%)',
+                    data: [62, 18],
+                    backgroundColor: [brilliantBlues.light, brilliantBlues.medium],
+                    borderColor: [brilliantBlues.dark, brilliantBlues.dark],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                ...defaultChartOptions,
+                 scales: {
+                    y: { ...defaultChartOptions.scales.y, beginAtZero: true, max: 80, ticks: { ...defaultChartOptions.scales.y.ticks, callback: value => value + '%' } },
+                    x: { ...defaultChartOptions.scales.x }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('sgaChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['SG&A (Despesas)', 'Lucro Bruto Restante'],
+                datasets: [{
+                    label: 'Eficiência (Empresa com Vantagem)',
+                    data: [25, 75],
+                    backgroundColor: [brilliantBlues.medium, brilliantBlues.light],
+                    hoverOffset: 4
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { 
+                    legend: { position: 'bottom', labels: { color: brilliantBlues.dark } }, 
+                    tooltip: { callbacks: { title: tooltipTitleCallback } } 
+                } 
+            }
+        });
+
+        new Chart(document.getElementById('epsChart'), {
+            type: 'line',
+            data: {
+                labels: ['Ano 1', 'Ano 2', 'Ano 3', 'Ano 4', 'Ano 5', 'Ano 6', 'Ano 7'],
+                datasets: [{
+                    label: 'Empresa com Vantagem (LPA)',
+                    data: [2.0, 2.3, 2.7, 3.1, 3.6, 4.1, 4.7],
+                    borderColor: brilliantBlues.light,
+                    backgroundColor: 'rgba(124, 181, 211, 0.2)',
+                    fill: true,
+                    tension: 0.1
+                }, {
+                    label: 'Empresa Competitiva (LPA)',
+                    data: [1.5, 0.8, 1.9, 1.2, 1.6, 2.0, 1.1],
+                    borderColor: brilliantBlues.dark,
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: defaultChartOptions
+        });
+
+        new Chart(document.getElementById('debtImpactChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Empresa com Vantagem', 'Empresa Endividada'],
+                datasets: [{
+                    label: 'Lucro Líquido',
+                    data: [90, 40],
+                    backgroundColor: brilliantBlues.light,
+                }, {
+                    label: 'Despesa com Juros',
+                    data: [10, 60],
+                    backgroundColor: brilliantBlues.dark,
+                }]
+            },
+            options: {
+                ...defaultChartOptions,
+                plugins: {
+                    ...defaultChartOptions.plugins,
+                    tooltip: {
+                        ...defaultChartOptions.plugins.tooltip,
+                        callbacks: {
+                            ...defaultChartOptions.plugins.tooltip.callbacks,
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += 'R$ ' + context.parsed.y + 'M';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: { stacked: true, ...defaultChartOptions.scales.x },
+                    y: { stacked: true, ...defaultChartOptions.scales.y }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('retainedEarningsChart'), {
+            type: 'line',
+            data: {
+                labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Lucros Retidos Acumulados (em Bilhões)',
+                    data: [100, 120, 145, 175, 210, 250, 300, 360, 430, 510],
+                    backgroundColor: 'rgba(54, 110, 138, 0.3)',
+                    borderColor: brilliantBlues.medium,
+                    fill: true,
+                    tension: 0.2
+                }]
+            },
+            options: defaultChartOptions
+        });
+
+        new Chart(document.getElementById('cashVsEarningsChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Ano 1', 'Ano 2', 'Ano 3'],
+                datasets: [{
+                    label: 'Lucro Líquido',
+                    data: [100, 110, 120],
+                    backgroundColor: brilliantBlues.medium,
+                }, {
+                    label: 'Fluxo de Caixa Op.',
+                    data: [115, 120, 140],
+                    backgroundColor: brilliantBlues.light,
+                }]
+            },
+            options: defaultChartOptions
+        });
+        
+        new Chart(document.getElementById('capexChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Empresa com Vantagem', 'Empresa "Asset-Heavy"'],
+                datasets: [{
+                    label: 'Fluxo de Caixa Op.',
+                    data: [100, 100],
+                    backgroundColor: brilliantBlues.light,
+                }, {
+                    label: 'CAPEX (Manutenção)',
+                    data: [20, 80],
+                    backgroundColor: brilliantBlues.dark,
+                }]
+            },
+            options: defaultChartOptions
+        });
+        
+        new Chart(document.getElementById('equityBondChart'), {
+            type: 'line',
+            data: {
+                labels: ['Ano 0', 'Ano 5', 'Ano 10', 'Ano 15', 'Ano 20'],
+                datasets: [{
+                    label: 'Rendimento do Título Fixo (em %)',
+                    data: [5, 5, 5, 5, 5],
+                    borderColor: brilliantBlues.dark,
+                    borderDash: [5, 5],
+                    fill: false,
+                }, {
+                    label: 'Rendimento do "Equity Bond" (sobre o Custo Inicial em %)',
+                    data: [5, 9, 16, 28, 50],
+                    borderColor: brilliantBlues.light,
+                    backgroundColor: 'rgba(124, 181, 211, 0.2)',
+                    fill: true,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                ...defaultChartOptions,
+                scales: {
+                    y: { ...defaultChartOptions.scales.y, ticks: { ...defaultChartOptions.scales.y.ticks, callback: value => value + '%' } },
+                    x: { ...defaultChartOptions.scales.x }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+

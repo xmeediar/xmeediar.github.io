@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPA Interativo: A Análise de Balanços de Warren Buffett</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals with Subtle Accents (Adapted for a professional, calm feel) -->
+    <!-- Application Structure Plan: The SPA is designed as a narrative, single-page journey that mirrors the logical flow of Warren Buffett's analysis process as described in the source report. It starts with his core philosophy (the 'Why'), then moves sequentially through the key financial statements (DRE, BP, DFC - the 'How'), and concludes with his unique valuation method (the 'Result'). This structure was chosen over a dashboard because the goal is education and storytelling, guiding the user through a complex methodology in a digestible, step-by-step manner. Key interactions are limited to scrolling and chart hovers to maintain focus on the narrative. -->
+    <!-- Visualization & Content Choices: 
+        - Philosophy (2 Revelations): Goal: Inform. Method: HTML/CSS Cards. Justification: Clearly separates and highlights the two foundational principles.
+        - DRE Metrics (Margin, SG&A, LPA): Goal: Compare. Method: Bar/Doughnut/Line Charts (Chart.js). Justification: Visually contrasts a 'good' vs. 'bad' company, making abstract financial concepts tangible and easy to compare.
+        - BP Ratios (D/E, ROE): Goal: Inform. Method: Large HTML/CSS KPI cards. Justification: Makes key benchmarks stand out for memorability and impact.
+        - Retained Earnings: Goal: Change. Method: Line Chart (Chart.js). Justification: Effectively shows the power of compounding and value growth over time.
+        - Analysis Process: Goal: Organize. Method: HTML/CSS Flowchart. Justification: Simplifies a multi-step process into a clear, visual sequence.
+        - Equity Bond Concept: Goal: Compare/Change. Method: Line Chart (Chart.js). Justification: The most effective way to visualize the core concept of a growing yield versus a fixed yield, which is the crux of Buffett's valuation insight.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used.
+    -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f7f4; /* Warm Neutral - Off-white */
+            color: #4a4a4a; /* Dark gray for text */
+        }
+        h1, h2, h3, .kpi-value {
+            font-family: 'Teko', sans-serif;
+            color: #3d5a80; /* Muted Blue - Main Accent */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 280px; /* Reduzido de 300px */
+            max-height: 350px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 320px; /* Reduzido de 350px */
+            }
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid #98c1d9; /* Light Blue - Secondary Accent */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        .flow-node {
+            background-color: #e0fbfc; /* Pale Cyan - Flow Accent */
+            border: 2px solid #98c1d9;
+            color: #293241; /* Dark Slate Blue */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#293241] text-white text-center py-16 px-4">
+        <h1 class="text-6xl md:text-8xl font-bold uppercase tracking-wider">Desvendando a Análise de Balanços</h1>
+        <p class="mt-4 text-xl md:text-3xl font-light text-[#e0fbfc]">A Filosofia de Investimento de Warren Buffett</p>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="intro" class="my-16 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4">A MUDANÇA DE PARADIGMA</h2>
+            <p class="max-w-3xl mx-auto text-lg">No início de sua carreira, Warren Buffett seguiu seu mentor, Benjamin Graham, comprando negócios medíocres a preços baixos. Duas revelações fundamentais o levaram a uma nova filosofia: comprar negócios fantásticos a preços justos. Este é o guia para entender essa transformação.</p>
+        </section>
+
+        <nav class="sticky top-0 bg-white/80 backdrop-blur-sm z-10 shadow-md mb-16 rounded-lg">
+            <ul class="flex items-center justify-center p-2 space-x-2 md:space-x-6 overflow-x-auto">
+                <li><a href="#dre" class="text-sm md:text-base font-bold text-[#3d5a80] hover:text-[#293241] transition-colors p-2">DRE</a></li>
+                <li><a href="#bp" class="text-sm md:text-base font-bold text-[#3d5a80] hover:text-[#293241] transition-colors p-2">Balanço</a></li>
+                <li><a href="#dfc" class="text-sm md:text-base font-bold text-[#3d5a80] hover:text-[#293241] transition-colors p-2">Fluxo de Caixa</a></li>
+                <li><a href="#valuation" class="text-sm md:text-base font-bold text-[#3d5a80] hover:text-[#293241] transition-colors p-2">Avaliação</a></li>
+            </ul>
+        </nav>
+
+        <section id="dre" class="my-16 scroll-mt-24">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">A Demonstração do Resultado (DRE)</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">A DRE é a primeira parada de Buffett. Ele a usa para identificar a consistência e a qualidade dos lucros, buscando sinais de uma vantagem competitiva durável.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="card p-6">
+                    <h3 class="text-2xl font-bold text-center mb-2">Margem Bruta Elevada</h3>
+                    <p class="text-center text-base mb-4">Uma margem bruta consistentemente acima de 40% indica poder de precificação. É o primeiro sinal de um negócio economicamente superior.</p>
+                    <div class="chart-container"><canvas id="grossMarginChart"></canvas></div>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-2xl font-bold text-center mb-2">SG&A Baixo e Estável</h3>
+                    <p class="text-center text-base mb-4">Despesas de Vendas, Gerais e Administrativas (SG&A) abaixo de 30% do Lucro Bruto sugerem eficiência e um produto que "se vende sozinho".</p>
+                    <div class="chart-container"><canvas id="sgaChart"></canvas></div>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-2xl font-bold text-center mb-2">Lucros Crescentes</h3>
+                    <p class="text-center text-base mb-4">Uma tendência de crescimento consistente no Lucro por Ação (LPA), sem volatilidade, é um sinal de um negócio vencedor e previsível.</p>
+                    <div class="chart-container"><canvas id="epsChart"></canvas></div>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-2xl font-bold text-center mb-2">Baixo Endividamento</h3>
+                    <p class="text-center text-base mb-4">Empresas fantásticas financiam-se com lucros próprios. Buffett prefere empresas com pouca ou nenhuma despesa com juros.</p>
+                    <div class="chart-container"><canvas id="interestChart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bp" class="my-16 scroll-mt-24">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">O Balanço Patrimonial (BP)</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">O Balanço revela a solidez financeira. Buffett procura uma estrutura de capital conservadora e um crescimento constante do valor para o acionista.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                <div class="card p-6 text-center">
+                    <div class="kpi-value">> 15%</div>
+                    <p class="font-bold text-lg">Retorno sobre Patrimônio (ROE)</p>
+                    <p class="text-base">Um ROE consistentemente alto (sem alavancagem excessiva) mostra que a gestão é eficiente em gerar lucro com o capital dos acionistas.</p>
+                </div>
+                <div class="card p-6 text-center">
+                    <div class="kpi-value">< 0.8</div>
+                    <p class="font-bold text-lg">Índice Dívida/Patrimônio</p>
+                    <p class="text-base">Um baixo nível de dívida é um sinal de resiliência e autossuficiência financeira, características chave de negócios superiores.</p>
+                </div>
+                <div class="card p-6 text-center sm:col-span-2 lg:col-span-1">
+                     <div class="kpi-value">📈</div>
+                    <p class="font-bold text-lg">Lucros Retidos Crescentes</p>
+                    <p class="text-base">O motor do enriquecimento. Indica que a empresa reinveste seus lucros de forma lucrativa, impulsionando o crescimento composto.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="dfc" class="my-16 scroll-mt-24">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">A Demonstração dos Fluxos de Caixa (DFC)</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">O lucro é opinião, o caixa é fato. Buffett foca no caixa que a empresa realmente gera e em como ela o utiliza.</p>
+             <div class="card p-6">
+                <h3 class="text-2xl font-bold text-center mb-2">Baixas Despesas de Capital (CapEx)</h3>
+                <p class="text-center text-base mb-4">Negócios fantásticos não precisam gastar rios de dinheiro para se manterem competitivos. Baixo CapEx significa mais caixa livre para os acionistas. Buffett busca CapEx total em 10 anos abaixo de 50% do lucro líquido total do mesmo período.</p>
+                <div class="chart-container"><canvas id="capexChart"></canvas></div>
+            </div>
+        </section>
+
+        <section id="valuation" class="my-16 scroll-mt-24">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">A Avaliação: O Conceito de "Equity Bond"</h2>
+            <p class="text-center text-lg max-w-3xl mx-auto mb-12">A genialidade de Buffett está em tratar ações de empresas excelentes como "títulos" cujos juros (lucros) crescem com o tempo. Isso muda completamente a perspectiva de valor.</p>
+             <div class="card p-6">
+                <h3 class="text-2xl font-bold text-center mb-2">O Rendimento Sempre Crescente</h3>
+                <p class="text-center text-base mb-4">Enquanto um título de dívida tradicional tem um cupom fixo, uma empresa com vantagem competitiva durável aumenta seus lucros. Isso faz com que o rendimento sobre o custo de aquisição original cresça exponencialmente ao longo do tempo.</p>
+                <div class="chart-container"><canvas id="equityBondChart"></canvas></div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <footer class="bg-[#293241] text-center text-white py-8 mt-12">
+        <p>Este aplicativo é uma interpretação visual dos conceitos do livro "Warren Buffett e a Análise de Balanços".</p>
+        <p class="text-sm text-[#98c1d9]">Criado para fins educacionais e de visualização de dados.</p>
+    </footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const wrapLabel = (label, maxLen = 16) => {
+            if (label.length <= maxLen) return label;
+            const words = label.split(' ');
+            let currentLine = '';
+            const lines = [];
+            for (const word of words) {
+                if ((currentLine + ' ' + word).trim().length > maxLen && currentLine.length > 0) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            }
+            if (currentLine.length > 0) lines.push(currentLine);
+            return lines;
+        };
+        
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            return Array.isArray(label) ? label.join(' ') : label;
+        };
+
+        const defaultChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { color: '#3d5a80', font: { family: 'Roboto' } } },
+                tooltip: {
+                    callbacks: { title: tooltipTitleCallback },
+                    bodyFont: { family: 'Roboto' },
+                    titleFont: { family: 'Roboto', weight: 'bold' }
+                }
+            },
+            scales: {
+                y: { ticks: { color: '#4a4a4a' }, grid: { color: '#e0e0e0' } },
+                x: { ticks: { color: '#4a4a4a' }, grid: { display: false } }
+            }
+        };
+        
+        new Chart(document.getElementById('grossMarginChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Empresa com Vantagem', wrapLabel('Empresa em Setor Competitivo')],
+                datasets: [{
+                    label: 'Margem Bruta (%)',
+                    data: [65, 25],
+                    backgroundColor: ['#98c1d9', '#e0fbfc'],
+                    borderColor: '#3d5a80',
+                    borderWidth: 2
+                }]
+            },
+            options: { ...defaultChartOptions, indexAxis: 'y' }
+        });
+
+        new Chart(document.getElementById('sgaChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['SG&A', 'Lucro Bruto Restante'],
+                datasets: [{
+                    label: 'Eficiência',
+                    data: [28, 72],
+                    backgroundColor: ['#ee6c4d', '#98c1d9'],
+                    borderColor: '#ffffff',
+                    borderWidth: 4
+                }]
+            },
+            options: { ...defaultChartOptions, plugins: { ...defaultChartOptions.plugins, legend: { position: 'bottom' } } }
+        });
+
+        new Chart(document.getElementById('epsChart'), {
+            type: 'line',
+            data: {
+                labels: ['Ano 1', 'Ano 2', 'Ano 3', 'Ano 4', 'Ano 5'],
+                datasets: [
+                    {
+                        label: 'Empresa com Vantagem',
+                        data: [2.1, 2.5, 3.0, 3.7, 4.5],
+                        borderColor: '#3d5a80',
+                        backgroundColor: 'rgba(61, 90, 128, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Empresa Volátil',
+                        data: [1.8, 1.2, 2.5, 0.9, 2.2],
+                        borderColor: '#ee6c4d',
+                        fill: false,
+                        borderDash: [5, 5]
+                    }
+                ]
+            },
+            options: defaultChartOptions
+        });
+
+        new Chart(document.getElementById('interestChart'), {
+            type: 'bar',
+            data: {
+                labels: [wrapLabel('Empresa Pouco Endividada'), wrapLabel('Empresa Alavancada')],
+                datasets: [{
+                    label: 'Lucro Operacional',
+                    data: [100, 100],
+                    backgroundColor: '#98c1d9',
+                }, {
+                    label: 'Despesa com Juros',
+                    data: [-5, -40],
+                    backgroundColor: '#ee6c4d',
+                }]
+            },
+            options: { ...defaultChartOptions, scales: { x: { stacked: true }, y: { stacked: true } } }
+        });
+
+        new Chart(document.getElementById('capexChart'), {
+            type: 'bar',
+            data: {
+                labels: ['2020', '2021', '2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Lucro Líquido',
+                    data: [100, 110, 125, 140, 160],
+                    backgroundColor: '#3d5a80',
+                    type: 'line',
+                    yAxisID: 'y'
+                }, {
+                    label: 'Despesas de Capital (CapEx)',
+                    data: [20, 22, 25, 28, 30],
+                    backgroundColor: '#ee6c4d',
+                    yAxisID: 'y'
+                }]
+            },
+            options: defaultChartOptions
+        });
+
+        new Chart(document.getElementById('equityBondChart'), {
+            type: 'line',
+            data: {
+                labels: ['Ano 0', 'Ano 5', 'Ano 10', 'Ano 15', 'Ano 20'],
+                datasets: [{
+                    label: 'Rendimento Título Fixo',
+                    data: [5, 5, 5, 5, 5],
+                    borderColor: '#ee6c4d',
+                    borderDash: [5, 5],
+                    fill: false,
+                }, {
+                    label: 'Rendimento "Equity Bond"',
+                    data: [5, 9.5, 18, 34, 65],
+                    borderColor: '#3d5a80',
+                    backgroundColor: 'rgba(61, 90, 128, 0.1)',
+                    fill: true,
+                    tension: 0.2
+                }]
+            },
+            options: {...defaultChartOptions, scales: {y: {ticks: {callback: (value) => value + '%'}}}}
+        });
+
+        const navLinks = document.querySelectorAll('nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const href = e.currentTarget.getAttribute('href');
+                const targetId = href.substring(href.indexOf('#')); // Garante que pegamos apenas a âncora
+                
+                if (targetId.length > 1) { // Verifica se o ID de destino não está vazio
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+</body>
+</html>
+

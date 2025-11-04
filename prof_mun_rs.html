@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise da Transparência de Dados do Magistério no Rio Grande do Sul</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Montserrat:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #007bff;
+            --background-color: #f4f7f6;
+            --text-color: #333;
+            --light-gray: #e9ecef;
+            --white: #ffffff;
+            --shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .section {
+            padding: 60px 20px;
+            margin-bottom: 20px;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background: var(--secondary-color);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -10px;
+            border-radius: 2px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .card {
+            background: #fdfdfd;
+            border-left: 5px solid var(--secondary-color);
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .card h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .flowchart-container {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+        }
+        
+        .flowchart-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            margin-top: 20px;
+        }
+        
+        .icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .recommendations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            background: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3e%3cpath d="M22 11.08V12a10 10 0 1 1-5.93-9.14"%3e%3c/path%3e%3cpolyline points="22 4 12 14.01 9 11.01"%3e%3c/polyline%3e%3c/svg%3e') no-repeat left center;
+            padding-left: 40px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .recommendations li strong {
+            color: var(--primary-color);
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--text-color);
+            color: var(--white);
+            margin-top: 40px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>O Desafio da Transparência</h1>
+            <p>Uma análise sobre os dados de professores ativos e inativos da rede municipal no Rio Grande do Sul e os caminhos para uma gestão pública baseada em evidências.</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="section">
+            <h2 class="section-title">O Problema Central: Dados Fragmentados</h2>
+            <div class="grid-2">
+                <div>
+                    <img class="icon" src="https://storage.googleapis.com/gemini-prod-us-west1-assets/images/64a6673648a475e7.svg" alt="Ícone de banco de dados fragmentado">
+                    <h3>Um Mosaico de Informações</h3>
+                    <p>A tentativa de consolidar dados sobre professores municipais no Rio Grande do Sul esbarra em um obstáculo estrutural: a descentralização. [span_0](start_span)[span_1](start_span)Não existe um banco de dados unificado[span_0](end_span)[span_1](end_span). [span_2](start_span)[span_3](start_span)Cada um dos 497 municípios gaúchos gerencia e publica suas informações de forma independente, criando um cenário de extrema fragmentação[span_2](end_span)[span_3](end_span).</p>
+                </div>
+                <div>
+                    <img class="icon" src="https://storage.googleapis.com/gemini-prod-us-west1-assets/images/13813c54d1d23420.svg" alt="Ícone de barreira">
+                    <h3>Barreiras para a Análise</h3>
+                    [span_4](start_span)[span_5](start_span)<p>Essa falta de padronização impede análises comparativas e a formulação de políticas públicas estratégicas em nível estadual[span_4](end_span)[span_5](end_span). [span_6](start_span)[span_7](start_span)A heterogeneidade vai desde portais avançados, como o de Porto Alegre, até a publicação de documentos estáticos (PDF/XLS) em outros municípios, tornando a coleta e agregação de dados uma tarefa exaustiva e manual[span_6](end_span)[span_7](end_span).</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Fluxo (ou a Falta de) para Acessar Dados Consolidados</h2>
+            <div class="flowchart-container">
+                <p>O caminho para obter uma visão geral do magistério municipal é complexo e, em grande parte, um beco sem saída. O fluxograma abaixo ilustra a jornada de um pesquisador:</p>
+                <img src="https://storage.googleapis.com/gemini-prod-us-west1-assets/images/c234b3f81e3a6c11.png" alt="Fluxograma mostrando a dificuldade de acesso aos dados consolidados de professores municipais no RS.">
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Estudo de Caso: O Alerta Previdenciário de Porto Alegre</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>Um Desequilíbrio Preocupante</h3>
+                    <p>Apesar da dificuldade geral, o caso de Porto Alegre oferece um vislumbre da importância desses dados. [span_8](start_span)Em 2018, a capital gaúcha atingiu um marco alarmante: pela primeira vez, o número de aposentados e pensionistas (15.343) superou o de servidores ativos (14.878)[span_8](end_span).</p>
+                    [span_9](start_span)<p>Este desequilíbrio gerou um déficit previdenciário de R$ 377 milhões apenas no primeiro semestre daquele ano, acendendo um alerta sobre a sustentabilidade fiscal do município[span_9](end_span).</p>
+                </div>
+                <div>
+                    <canvas id="poaChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Lacunas e Iniciativas no Cenário Estadual</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Portal da Transparência Estadual</h3>
+                    [span_10](start_span)[span_11](start_span)<p>O Portal da Transparência do Rio Grande do Sul é uma ferramenta robusta, mas seu escopo é restrito aos servidores da esfera estadual[span_10](end_span)[span_11](end_span). [span_12](start_span)Ele explicitamente não inclui os dados do magistério municipal, que constitui a maior parte dos docentes da educação básica[span_12](end_span).</p>
+                </div>
+                <div class="card">
+                    <h3>IMERS: Uma Ferramenta Incompleta</h3>
+                    [span_13](start_span)<p>O Índice Municipal da Educação do RS (IMERS) é uma iniciativa estratégica que compara a qualidade educacional para orientar a distribuição de recursos do ICMS[span_13](end_span). [span_14](start_span)Contudo, a plataforma apresenta uma lacuna crítica: "não contém informações sobre a remuneração ou a quantidade de professores por município"[span_14](end_span). [span_15](start_span)Isso desvincula a análise de desempenho dos dados fiscais e de pessoal[span_15](end_span).</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="section recommendations">
+            <h2 class="section-title">Caminhos para o Futuro: Recomendações Estratégicas</h2>
+            <p style="text-align:center; max-width:800px; margin:auto; margin-bottom:40px;">Para superar a fragmentação e transformar dados em inteligência para a gestão pública, são propostas ações fundamentais baseadas na análise documental:</p>
+            <ul>
+                <li>
+                    <strong>Harmonização e Padronização</strong>
+                    [span_16](start_span)[span_17](start_span)Iniciativa liderada pelo TCE-RS ou FAMURS para criar um padrão de dados abertos (CSV/JSON) para as folhas de pagamento municipais, com campos e nomenclaturas universais[span_16](end_span)[span_17](end_span).
+                </li>
+                <li>
+                    <strong>Criação de um Repositório Centralizado</strong>
+                    [span_18](start_span)[span_19](start_span)Desenvolvimento de uma plataforma estadual onde cada prefeitura seja obrigada a submeter mensalmente seus dados de folha de pagamento já padronizados[span_18](end_span)[span_19](end_span).
+                </li>
+                <li>
+                    <strong>Adoção de Ferramentas Interativas</strong>
+                    [span_20](start_span)[span_21](start_span)Incentivar os municípios a evoluírem seus portais de transparência para oferecer painéis interativos e resumos estatísticos, seguindo o exemplo de Porto Alegre[span_20](end_span)[span_21](end_span).
+                </li>
+                <li>
+                    <strong>Integração de Dados no IMERS</strong>
+                    [span_22](start_span)Expandir o IMERS para incluir dados de remuneração e quantidade de professores, conectando desempenho educacional a informações fiscais e de pessoal[span_22](end_span).
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Esta página foi gerada sinteticamente com base no relatório "Análise da Remuneração e Quadros de Pessoal do Magistério Municipal no Rio Grande do Sul".</p>
+        </div>
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('poaChart').getContext('2d');
+        const poaChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Servidores Ativos', 'Aposentados e Pensionistas'],
+                datasets: [{
+                    label: 'Quantidade de Vínculos (Jun/2018)',
+                    data: [14878, 15343],
+                    backgroundColor: [
+                        'rgba(0, 123, 255, 0.6)',
+                        'rgba(220, 53, 69, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(0, 123, 255, 1)',
+                        'rgba(220, 53, 69, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Quantidade de Vínculos'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Quadro de Pessoal da Prefeitura de Porto Alegre (Jun/2018)',
+                        font: {
+                            size: 16
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
+
