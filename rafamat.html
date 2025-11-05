@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia da Função Afim</title>
+    <style>
+        /* CSS para estilizar o infográfico */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #004a99;
+            margin-top: 0;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            color: #333;
+            margin-top: -15px;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        code {
+            background: #eef;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+            font-weight: bold;
+        }
+
+        .card {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #0056b3;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            font-size: 1.6em;
+        }
+
+        .card p, .card li {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .card strong {
+            color: #d9534f; /* Vermelho para destaque */
+        }
+        
+        .card .crescente {
+            color: #28a745; /* Verde para crescente */
+            font-weight: bold;
+        }
+        
+        .card .decrescente {
+            color: #dc3545; /* Vermelho para decrescente */
+            font-weight: bold;
+        }
+
+        .example-box {
+            background: #e6f7ff;
+            border: 1px solid #b3e0ff;
+            border-left: 5px solid #007bff;
+        }
+
+        .example-box h3 {
+            color: #0056b3;
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Infográfico: O Raio-X da Função Afim</h1>
+        <p class="subtitle">Como analisar qualquer função do 1º grau (<code>y = ax + b</code>)</p>
+
+        <div class="card">
+            <h2>Passo 1: Crescente ou Decrescente? 📈📉</h2>
+            <p>É o mais fácil! Basta olhar o sinal do <strong>número 'a'</strong> (quem está junto com o <code>x</code>).</p>
+            <ul>
+                <li>Se <code>a</code> for <strong>positivo</strong> (a > 0): A função é <strong class="crescente">CRESCENTE</strong>. (O gráfico sobe)</li>
+                <li>Se <code>a</code> for <strong>negativo</strong> (a < 0): A função é <strong class="decrescente">DECRESCENTE</strong>. (O gráfico desce)</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Passo 2: Onde corta o Eixo Y? 🎯</h2>
+            <p>Mais fácil ainda! O gráfico corta o eixo Y (o eixo vertical) exatamente no <strong>número 'b'</strong> (o termo "sozinho").</p>
+            <ul>
+                <li><strong>Ponto de Intersecção (Eixo Y):</strong> <code>y = b</code></li>
+                <li>O ponto exato no gráfico é <code>(0, b)</code>.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Passo 3: Qual é a Raiz da Função? 🌱</h2>
+            <p>A "raiz" é o ponto onde o gráfico corta o eixo X (o eixo horizontal). É o valor de <code>x</code> que faz o <code>y</code> valer zero.</p>
+            <p>Para achar, <strong>iguale a função a zero (<code>y = 0</code>)</strong> e resolva a equação para encontrar o <code>x</code>.</p>
+            <ul>
+                <li><strong>Como calcular:</strong> <code>ax + b = 0</code> ➡️ <code>x = -b / a</code></li>
+            </ul>
+        </div>
+
+        <div class="card example-box">
+            <h3>Exemplo na Prática: <code>y = 2x + 6</code></h3>
+            <ol>
+                <li><strong>'a' = 2</strong>. É positivo, então a função é <strong class="crescente">CRESCENTE</strong> 📈.</li>
+                <li><strong>'b' = 6</strong>. Então, o gráfico corta o eixo Y no ponto <strong><code>y = 6</code></strong> 🎯.</li>
+                <li><strong>Raiz:</strong>
+                    <code>2x + 6 = 0</code><br>
+                    <code>2x = -6</code><br>
+                    <code>x = -6 / 2</code><br>
+                    <code><strong>x = -3</strong></code> (Esta é a raiz 🌱)
+                </li>
+            </ol>
+        </div>
+    </div>
+
+</body>
+</html>
