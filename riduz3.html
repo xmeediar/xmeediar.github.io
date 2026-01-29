@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiDuZ | Mix Magic Tour</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f39c12; /* Laranja Energético para destaque */
+            --bg-dark: #0a0a0a; /* Fundo quase preto */
+            --text-light: #f4f4f4; /* Texto claro */
+            --card-bg: #1a1a1a; /* Fundo dos cartões */
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* --- HEADER COM NOVA IMAGEM DE FUNDO TECH/DAW --- */
+        header {
+            height: 100vh; /* Ocupa a altura total da tela */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            /* Overlay escuro sobre uma imagem de estúdio de alta tecnologia/DAW */
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1619983081563-430f636041d4?auto=format&fit=crop&q=80&w=1600') center/cover no-repeat;
+            background-attachment: fixed; /* Efeito parallax simples */
+        }
+
+        .logo h1 {
+            font-size: 5rem;
+            letter-spacing: 15px;
+            margin: 0;
+            color: var(--primary-color);
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 300;
+        }
+
+        .logo h3 {
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        /* --- SEÇÕES GERAIS --- */
+        section {
+            padding: 80px 10%; /* Espaçamento interno generoso */
+        }
+
+        h2 {
+            border-bottom: 3px solid var(--primary-color);
+            display: inline-block;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+
+        /* --- SEÇÃO SOBRE (COM CONTEXTO ADICIONADO) --- */
+        #sobre p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: rgba(243, 156, 18, 0.1); /* Fundo laranja transparente */
+            padding: 20px;
+            border-left: 5px solid var(--primary-color);
+            margin-top: 30px;
+        }
+
+        /* --- CARDS DE SERVIÇOS --- */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsivo */
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-10px); /* Efeito de levitar ao passar o mouse */
+            box-shadow: 0 10px 20px rgba(243, 156, 18, 0.2);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        /* --- PORTFÓLIO E LEGAL --- */
+        .portfolio-preview, .legal-box {
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 20px;
+        }
+
+        .legal-box {
+             border: 2px solid var(--primary-color);
+        }
+
+        /* --- CONTATO --- */
+        .contact-box {
+            background: var(--primary-color);
+            color: black;
+            padding: 60px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(243, 156, 18, 0.3);
+        }
+
+        .contact-box h3 {
+            font-size: 2rem;
+            margin-top: 20px;
+            word-break: break-all; /* Evita quebra do email em telas pequenas */
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            background: #050505;
+        }
+
+        /* --- BOTÕES --- */
+        .btn {
+            background: var(--primary-color);
+            color: black;
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px; /* Botão arredondado */
+            display: inline-block;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background: #d35400; /* Laranja mais escuro ao passar o mouse */
+            transform: scale(1.05);
+        }
+
+        /* --- RESPONSIVIDADE --- */
+        @media (max-width: 768px) {
+            .logo h1 { font-size: 3rem; letter-spacing: 5px; }
+            .logo p { font-size: 1rem; letter-spacing: 2px; }
+            section { padding: 60px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>RiDuZ</h1>
+            <p>Mix Magic Tour</p>
+            <h3>Original Music for Videos & Cinema</h3>
+            <a href="#contato" class="btn">Solicitar Orçamento</a>
+        </div>
+    </header>
+
+    <section id="sobre">
+        <h2>A Produtora</h2>
+        <p>Com sede em Porto Alegre e atuação nacional, a <strong>RiDuZ</strong> é especializada em traduzir a intenção do seu roteiro em paisagens sonoras exclusivas. Entendemos que a música é a alma do vídeo, e ela precisa ter sentimento real.</p>
+        
+        <div class="highlight-box">
+            <p><strong>Nosso Diferencial Tecnológico e Humano:</strong></p>
+            <p>Unimos a sensibilidade da <strong>Emoção Humana</strong> na composição com a mais alta tecnologia de produção móvel (utilizando ferramentas como <em>Audio Evolution</em> e mixagem de precisão). Diferente das IAs generativas, garantimos <strong>segurança jurídica total</strong>, entregando obras 100% originais, registráveis e tecnicamente perfeitas (padrão LUFS) para qualquer plataforma digital.</p>
+        </div>
+    </section>
+
+    <section id="servicos">
+        <h2>O que fazemos</h2>
+        <div class="services">
+            <div class="card">
+                <h3>Audio Branding</h3>
+                <p>Logos sonoros e identidades que tornam sua marca reconhecível em segundos. O som da sua empresa, com estratégia.</p>
+            </div>
+            <div class="card">
+                <h3>Soundtracks Narrativas</h3>
+                <p>Trilhas originais para filmes, documentários, setor público e publicidade que exigem profundidade emocional.</p>
+            </div>
+            <div class="card">
+                <h3>Mastering & Tech</h3>
+                <p>Finalização técnica de precisão. Seu áudio com volume competitivo e clareza em celulares, TVs e sistemas de som.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="portfolio-preview">
+            <h2>Validação de Mercado</h2>
+            <p style="font-size: 1.2rem;">Case de Sucesso: <strong>Estilo "Arábias"</strong></p>
+            <p>Nossa capacidade de engajamento foi validada com um teste de apenas 8 segundos, que obteve mais de <strong>300 visualizações orgânicas em menos de 12h</strong> no YouTube Shorts, provando o impacto das nossas "pílulas sonoras".</p>
+            <p><em>[Portfólio completo disponível no lançamento em Junho/2026]</em></p>
+        </div>
+    </section>
+
+    <section id="legal">
+        <div class="legal-box">
+            <h2>Selo Human-in-the-Loop (Anti-IA Risk)</h2>
+            <p>Em um mercado inundado por IA, a RiDuZ oferece segurança. Nossas obras possuem <strong>Garantia de Autoria Humana</strong>, permitindo o registro pleno de propriedade intelectual da sua marca e protegendo sua empresa contra os vazios legais da inteligência artificial.</p>
+        </div>
+    </section>
+
+    <section id="contato">
+        <div class="contact-box">
+            <h2>Vamos criar o som do futuro?</h2>
+            <p>Estamos agendando projetos para o grande lançamento em Junho de 2026. Garanta sua data.</p>
+            <h3>meediar.invest@gmail.com</h3>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 RiDuZ | Mix Magic Tour. Porto Alegre - RS - Brasil. <br>Assessoria de Negócios: meediar.invest.
+    </footer>
+
+</body>
+</html>
