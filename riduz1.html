@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RiDuZ | Mix Magic Tour</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f39c12; /* Laranja Energético */
+            --bg-dark: #0a0a0a;
+            --text-light: #f4f4f4;
+            --card-bg: #1a1a1a;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&q=80&w=1600') center/cover;
+        }
+
+        .logo h1 {
+            font-size: 5rem;
+            letter-spacing: 15px;
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .logo p {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        section {
+            padding: 80px 10%;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--primary-color);
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .portfolio-preview {
+            background: var(--card-bg);
+            padding: 50px;
+            text-align: center;
+            border-radius: 20px;
+        }
+
+        .contact-box {
+            background: var(--primary-color);
+            color: black;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+        }
+
+        .btn {
+            background: var(--primary-color);
+            color: black;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>RiDuZ</h1>
+            <p>Mix Magic Tour</p>
+            <h3>Original Music for Videos & Cinema</h3>
+            <a href="#contato" class="btn">Solicitar Orçamento</a>
+        </div>
+    </header>
+
+    <section id="sobre">
+        <h2>A Produtora</h2>
+        <p>A RiDuZ é especializada em traduzir emoção e roteiros em paisagens sonoras exclusivas. Com sede em Porto Alegre e atuação nacional, entregamos soundtracks que conectam marcas a pessoas.</p>
+    </section>
+
+    <section id="servicos">
+        <h2>O que fazemos</h2>
+        <div class="services">
+            <div class="card">
+                <h3>Audio Branding</h3>
+                <p>Criação de identidades sonoras e logos que tornam sua marca inesquecível.</p>
+            </div>
+            <div class="card">
+                <h3>Soundtracks</h3>
+                <p>Trilhas originais para filmes, comerciais e conteúdos de alta performance.</p>
+            </div>
+            <div class="card">
+                <h3>Mastering (LUFS)</h3>
+                <p>Finalização técnica de áudio garantindo máxima qualidade em todas as plataformas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio">
+        <div class="portfolio-preview">
+            <h2>Portfólio em Destaque</h2>
+            <p><strong>Estilo Arábias:</strong> Validado com 300+ views orgânicas em menos de 12h.</p>
+            <p><em>[Link para os Reels do YouTube em breve]</em></p>
+        </div>
+    </section>
+
+    <section id="legal">
+        <h2>Selo Human-in-the-Loop</h2>
+        <p>Garantimos segurança jurídica total. Nossas obras possuem <strong>Certificado de Autoria Humana</strong>, permitindo o registro pleno de propriedade intelectual e proteção contra os vazios legais da IA.</p>
+    </section>
+
+    <section id="contato">
+        <div class="contact-box">
+            <h2>Vamos criar algo único?</h2>
+            <p>Entre em contato para orçamentos e consultoria de branding sonoro.</p>
+            <h3>meediar.invest@gmail.com</h3>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 RiDuZ | Mix Magic Tour. Porto Alegre - RS - Brasil.
+    </footer>
+
+</body>
+</html>
